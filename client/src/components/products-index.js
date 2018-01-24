@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { fetchProducts } from '../actions/index';
 import _ from 'lodash';
 
@@ -11,9 +12,12 @@ class ProductsIndex extends Component {
   renderProducts() {
     return _.map(this.props.products, product => {
       return (
-        <li className="list-group-item" key={product.id}>
-          {product.name}
-        </li>  
+        <div className="col-sm-3" key={product._id}>
+          <div className="">
+            <img className="media-object" src={product.images[0]}></img>
+          </div>
+          <div className="">{product.name}</div>
+        </div>  
       )
     });
   }
@@ -21,6 +25,11 @@ class ProductsIndex extends Component {
   render() {
     return (
       <div>
+        <div className="text-xs-right">
+          <Link className="btn btn-primary" to="/product/barcode">
+            Add a Product
+          </Link>
+        </div>
         <h3>Products</h3>
         <ul className="list-group">
           {this.renderProducts()}

@@ -1,13 +1,31 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
 
 import ProductsIndex from './products-index';
+import ProductNew from './product-new';
+import BarcodeNew from './barcode-new';
 
-export default class App extends Component {
+
+class App extends Component {
   render() {
     return (
-      <div>
-        <ProductsIndex />
+      <div className="container">
+        <BrowserRouter>
+          <div>
+            <Switch>
+              <Route path="/product/barcode" component={BarcodeNew} />
+              <Route path="/product/new" component={ProductNew} />
+              <Route path="/" component={ProductsIndex} />
+            </Switch>
+          </div>
+        </BrowserRouter>
       </div>
-      )
+    )
   }
 }
+
+export default App;
+
+
+    

@@ -2,19 +2,18 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": {
-    "/api/*": {
-      "target": "http://react-redux-keggatron1.c9users.io"
-    }
-  },
+  "proxy": "http://projects-keggatron1.c9users.io",
   "dependencies": {
     "axios": "^0.17.1",
     "lodash": "^4.17.4",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "redux": "^3.7.2",
+    "redux-form": "^7.2.0",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.2.0",
     "semantics3-node": "0.0.3"
