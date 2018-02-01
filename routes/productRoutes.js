@@ -33,7 +33,7 @@ module.exports = app => {
   
   app.get('/api/barcodesearch', async (req, res) => {
     var product = await Product.find(req.query);
-    
+    console.log(req.query)
     
     if(product.length < 1) {
       
@@ -50,17 +50,17 @@ module.exports = app => {
       
       var request = https.request(opts, function(response) {
         response.on('data', function(data) {
-          res.send(data.toString());
+          const response = JSON.parse(data.toString())
+          res.send(response.items);
         })
         
       })
       request.on('error', function(e) {
         console.log('problem with request: ' + e.message);
       })
-      console.log(req.query.upc)
-      request.write('{ "upc": ${req.query.upc} }')
+      var code = req.query.upc;
+      request.write(`{ "upc": "${code}" }`)
       // other requests
-      
       return request.end()
       
     };

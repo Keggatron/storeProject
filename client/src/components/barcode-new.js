@@ -25,7 +25,10 @@ class BarcodeNew extends Component {
   }
   
   onSubmit(values) {
-    this.props.barcodeSearch(values);
+    this.props.barcodeSearch(values)
+    .then(() => {
+      this.props.history.push('/product/new')
+    });
   }
   
   render() {
@@ -38,7 +41,11 @@ class BarcodeNew extends Component {
             name="barcode"
             component={this.renderBarcodeField}
           />
-          <button type="submit" className="btn btn-primary"> Submit </button>
+          <button type="submit" className="btn btn-primary"> 
+            
+              Submit 
+            
+          </button>
           <Link to="/" className="btn btn-danger"> Cancel </Link>
         </form>
       </div>
@@ -55,6 +62,7 @@ function validate(values) {
     
   return errors;
 }
+
 
 export default reduxForm({
   validate,

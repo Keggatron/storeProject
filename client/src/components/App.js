@@ -14,7 +14,7 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Switch>
-              <Route path="/product/barcode" component={BarcodeNew} />
+              <Route path="/product/barcode" render={props => <BarcodeNew {...props} /> } />
               <Route path="/product/new" component={ProductNew} />
               <Route path="/" component={ProductsIndex} />
             </Switch>

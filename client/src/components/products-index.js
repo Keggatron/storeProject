@@ -7,9 +7,11 @@ import _ from 'lodash';
 class ProductsIndex extends Component {
   componentDidMount() {
     this.props.fetchProducts();
+    
   }
   
   renderProducts() {
+    console.log(this.props.products)
     return _.map(this.props.products, product => {
       return (
         <div className="col-sm-3" key={product._id}>
