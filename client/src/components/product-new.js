@@ -2,13 +2,45 @@ import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { barcodeSearch } from '../actions';
+import { updateProducts } from '../actions';
 
 class ProductNew extends Component {
+  constructor(props) {
+    super(props);
+    
+    this.renderProductField = this.renderProductField.bind(this);
+    this.handleInitialize = this.handleInitialize.bind(this);
+  }
+  
+  componentDidMount() {
+    
+    if(!this.props.product || this.props.product.length < 1){
+      
+      this.props.history.push('/product/barcode');
+    } else {
+      this.handleInitialize();
+    }
+  }
+  
+  handleInitialize() {
+    const initData = {
+      "name":this.props.product.name || this.props.product.title,
+      "brand":this.props.product.brand,
+      "description":this.props.product.description,
+      "quantity": this.props.product.quantity || 0,
+      "category": this.props.product.category || "",
+      "upc": this.props.product.upc,
+      "images":this.props.product.images,
+      "price": this.props.product.price
+    };
+    
+    this.props.initialize(initData);
+  }
+  
+  
   renderProductField(field) {
     const { meta: { touched, error} } = field
     const className = `form-group ${touched && error ? 'has-danger' : ''}`
-    // console.log(this.props.product);
 
     return (
       <div className={className}>
@@ -16,7 +48,6 @@ class ProductNew extends Component {
         <input 
           className="form-control"
           type="text"
-          value={field.value}
           {...field.input}
         />
         <div className="text-help">
@@ -29,7 +60,10 @@ class ProductNew extends Component {
   }
   
   onSubmit(values) {
-    console.log(values);
+    this.props.updateProducts(values)
+    .then(() => {
+      this.props.history.push('/');
+    });
   }
   
   render() {
@@ -37,55 +71,53 @@ class ProductNew extends Component {
     
     
     return (
-      <div>{console.log(this.props.product)}</div>
-      // <div>
-      //   <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-      //     <Field
-      //       label="Name of Product"
-      //       name="name"
-      //       value={this.props.product.name}
-      //       component={this.renderProductField}
-      //     />
-      //     <Field
-      //       label="Brand"
-      //       name="brand"
-      //       component={this.renderProductField}
-      //     />
-      //     <Field
-      //       label="Description"
-      //       name="description"
-      //       component={this.renderProductField}
-      //     />
-      //     <Field
-      //       label="Quantity"
-      //       name="quantity"
-      //       component={this.renderProductField}
-      //     />
-      //     <Field
-      //       label="Price"
-      //       name="price"
-      //       component={this.renderProductField}
-      //     />
-      //     <Field
-      //       label="Category"
-      //       name="category"
-      //       component={this.renderProductField}
-      //     />
-      //     <Field
-      //       label="UPC Code"
-      //       name="upc"
-      //       component={this.renderProductField}
-      //     />
-      //     <Field
-      //       label="Images"
-      //       name="images"
-      //       component={this.renderProductField}
-      //     />
+      <div>
+        <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+          <Field
+            label="Name of Product"
+            name="name"
+            component={this.renderProductField}
+          />
+          <Field
+            label="Brand"
+            name="brand"
+            component={this.renderProductField}
+          />
+          <Field
+            label="Description"
+            name="description"
+            component={this.renderProductField}
+          />
+          <Field
+            label="Quantity"
+            name="quantity"
+            component={this.renderProductField}
+          />
+          <Field
+            label="Price"
+            name="price"
+            component={this.renderProductField}
+          />
+          <Field
+            label="Category"
+            name="category"
+            component={this.renderProductField}
+          />
+          <Field
+            label="UPC Code"
+            name="upc"
+            component={this.renderProductField}
+          />
+          <Field
+            label="Images"
+            name="images"
+            component={this.renderProductField}
+          />
           
-      //     <button type="submit" className="btn btn-primary"> Submit </button>
-      //     <Link to="/" className="btn btn-danger"> Cancel </Link>
-      //   </form>
-      // </div>
+          <button type="submit" className="btn btn-primary"> Submit </button>
+          <Link to="/" className="btn btn-danger"> Cancel </Link>
+        </form>
+      </div>
     )
   }
 }
@@ -119,12 +151,16 @@ function validate(values) {
 }
 
 function mapStateToProps({ newProduct }, ownProps) {
-  return { product: newProduct[0][0] };
+  if(!newProduct || newProduct.length < 1) {
+    return { product: [] };
+  } else {
+    return { product: newProduct[0][0] };
+  }
 }
 
 export default reduxForm({
   validate,
   form: 'ProductNewForm'
 })(
-  connect(mapStateToProps, { barcodeSearch })(ProductNew)
+  connect(mapStateToProps, { updateProducts })(ProductNew)
 );

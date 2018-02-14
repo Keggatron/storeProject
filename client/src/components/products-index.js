@@ -11,12 +11,11 @@ class ProductsIndex extends Component {
   }
   
   renderProducts() {
-    console.log(this.props.products)
     return _.map(this.props.products, product => {
       return (
         <div className="col-sm-3" key={product._id}>
           <div className="">
-            <img className="media-object" src={product.images[0]}></img>
+            <img className="media-object thumbnails" src={product.images[0]}></img>
           </div>
           <div className="">{product.name}</div>
         </div>  

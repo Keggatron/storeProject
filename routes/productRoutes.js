@@ -67,6 +67,23 @@ module.exports = app => {
     res.send(product);
     
   });
+  
+  app.get('/api/updateproducts', async (req, res) => {
+    const updateProduct = await Product.update({"upc": req.query.upc},
+      {
+        "brand": req.query.brand,
+        "category": req.query.category,
+        "description": req.query.description,
+        "images": req.query.images,
+        "name": req.query.name,
+        "price": req.query.price,
+        "quantity":req.query.quantity
+      },
+      { upsert: true }
+    );
+    res.send(updateProduct)
+  });
+  
 };
 
  

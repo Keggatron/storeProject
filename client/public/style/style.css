@@ -1,3 +1,8 @@
 form a {
   margin-left: 5px;
 }
+
+.thumbnails {
+    height: 150px;
+    width: 150px;
+}
